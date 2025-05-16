@@ -35,12 +35,10 @@ pipeline {
         stage('Verify Docker') {
             steps {
                 script {
-                    // Check Docker version and info
-                    bat 'docker --version'
-                    bat 'docker info'
-                    
-                    // Test Docker by running a simple hello-world container
-                    bat 'docker run hello-world'
+                    // Using full paths to ensure Docker commands work
+                    bat '"C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe" --version'
+                    bat '"C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe" info'
+                    bat '"C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe" run hello-world'
                 }
             }
         }
@@ -48,7 +46,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    bat "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
+                    bat "\"C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe\" build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
                 }
             }
         }
@@ -57,7 +55,7 @@ pipeline {
             steps {
                 script {
                     // Save the image to a tar file
-                    bat "docker save ${DOCKER_IMAGE}:${DOCKER_TAG} > image.tar"
+                    bat "\"C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe\" save ${DOCKER_IMAGE}:${DOCKER_TAG} > image.tar"
                     
                     // Using Publish Over SSH plugin
                     sshPublisher(
