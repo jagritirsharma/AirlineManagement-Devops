@@ -32,6 +32,19 @@ pipeline {
             }
         }
         
+        stage('Verify Docker') {
+            steps {
+                script {
+                    // Check Docker version and info
+                    bat 'docker --version'
+                    bat 'docker info'
+                    
+                    // Test Docker by running a simple hello-world container
+                    bat 'docker run hello-world'
+                }
+            }
+        }
+        
         stage('Build Docker Image') {
             steps {
                 script {
